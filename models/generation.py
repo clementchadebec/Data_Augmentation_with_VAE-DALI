@@ -20,12 +20,12 @@ def generate_data(args, args_model, model, dir_path, logger=None):
 
         for i in tqdm(range(full_batch_nbr)):
             z = torch.randn(args.batch_size, args_model.latent_dim).to(args.device)
-            x_gen = model.sample_img(z)[0].detach()
+            x_gen = model.sample_img(z).detach()
             generated_samples.append(x_gen)
 
         if last_batch_samples_nbr > 0:
             z = torch.randn(args.batch_size, args_model.latent_dim).to(args.device)
-            x_gen = model.sample_img(z)[0].detach()
+            x_gen = model.sample_img(z).detach()
             generated_samples.append(x_gen)
 
     elif args.generation_method=='metric_sampling':
@@ -41,11 +41,10 @@ def generate_data(args, args_model, model, dir_path, logger=None):
                 step_nbr=args.mcmc_steps_nbr,
                 n_lf=args.n_lf,
                 eps_lf=args.eps_lf,
-                device=args.device,
                 verbose=True,
             )
 
-            x_gen = model.sample_img(z=samples)[0].detach()
+            x_gen = model.sample_img(z=samples).detach()
             generated_samples.append(x_gen)
 
         if last_batch_samples_nbr > 0:
@@ -56,11 +55,10 @@ def generate_data(args, args_model, model, dir_path, logger=None):
                 step_nbr=args.mcmc_steps_nbr,
                 n_lf=args.n_lf,
                 eps_lf=args.eps_lf,
-                device=args.device,
                 verbose=True,
             )
 
-            x_gen = model.sample_img(z=samples)[0].detach()
+            x_gen = model.sample_img(z=samples).detach()
             generated_samples.append(x_gen)
 
     elif args.generation_method=='riemannian_rw':
@@ -71,56 +69,32 @@ def generate_data(args, args_model, model, dir_path, logger=None):
         for i in tqdm(range(full_batch_nbr)):
             samples = random_walk_batch(
                 model=model,
+                latent_dim=args_model.latent_dim,
                 n_steps=args.mcmc_steps_nbr,
                 n_samples=args.batch_size,
                 delta=1.,
                 dt=args.eigenvalues,
-                device=args.device,
                 verbose=True
             )
 
-            x_gen = model.sample_img(z=samples)[0].detach()
+            x_gen = model.sample_img(z=samples).detach()
             generated_samples.append(x_gen)
 
         if last_batch_samples_nbr > 0:
             samples = random_walk_batch(
                 model=model,
+                latent_dim=args_model.latent_dim,
                 n_steps=last_batch_samples_nbr,
                 n_samples=args.batch_size,
                 delta=1.,
                 dt=args.eigenvalues,
-                device=args.device,
                 verbose=True
             )
 
-            x_gen = model.sample_img(z=samples)[0].detach()
+            x_gen = model.sample_img(z=samples).detach()
             generated_samples.append(x_gen)
 
     generated_samples = torch.cat(generated_samples)
-
-    # Display samples types (To be furter removed)
-
-    if generated_samples.shape[0] > 49:
-        im_shape = int(
-            np.sqrt(generated_samples.shape[-1])
-        )  # int(np.sqrt(args_model.input_dim))
-        n_im = 49
-        fig, axes = plt.subplots(
-            nrows=int(n_im ** 0.5),
-            ncols=int(n_im ** 0.5),
-            figsize=(int(n_im ** 0.5), int(n_im ** 0.5)),
-        )
-        img_no = 0
-        for i in range(int(int(n_im ** 0.5))):
-            for j in range(int(n_im ** 0.5)):
-                axes[i][j].matshow(
-                    generated_samples[img_no].reshape(1, im_shape, im_shape)[0].cpu(),
-                    cmap="gray",
-                )
-                axes[i][j].axis("off")
-                img_no += 1
-        fig.tight_layout(pad=0.8)
-        plt.savefig(os.path.join(dir_path, f"{args.generation_type}.pdf"))
 
     torch.save(
         {"args": args, "args_model": args_model, "data": generated_samples},

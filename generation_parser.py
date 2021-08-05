@@ -64,17 +64,14 @@ ap.add_argument(
 )
 # Seed
 ap.add_argument("--seed", type=int, default=None, help="random seed")
-# Cuda
-ap.add_argument(
-    "--no_cuda", action="store_true", default=False, help="disables CUDA training"
-)
+
 ap.add_argument(
     "--verbose", action="store_true", default=False, help="verbosity (default: False)"
 )
 
 args = ap.parse_args()
-args.cuda = not args.no_cuda and torch.cuda.is_available()
-args.device = "cuda" if args.cuda else "cpu"
+args.cuda = torch.cuda.is_available()
+args.device = "cuda" if torch.cuda.is_available() else "cpu"
 
 if args.seed is None:
     seed = torch.randint(10000, (1,))
