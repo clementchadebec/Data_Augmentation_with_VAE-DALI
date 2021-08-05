@@ -3,4 +3,3 @@ __pycache__
 augmentation_data/*
 augmented_data/*
 recordings/*
-trained_models/*
