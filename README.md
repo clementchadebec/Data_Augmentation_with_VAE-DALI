@@ -83,5 +83,4 @@ Generated data are stored in the folder `generated_data/YYYY-MM-DD_hh_mm_ss__mod
 - `trainers`: Contains the `training.py` script to train the models.
 - `trained_models`: Contain the pre-trained models used in the paper.
 - `training_data`: Contains the data used in the paper
-- `vae_vampprior`: The repository from https://github.com/jmtomczak/vae_vampprior (the implemention of (Tomczak, J. and Welling, M.  VAE with a vampprior, 2017)).
 - `notebooks`: Contains the demo notebook.
