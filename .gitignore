@@ -1,2 +1,6 @@
 __pycache__
 *.pyc
+augmentation_data/*
+augmented_data/*
+recordings/*
+trained_models/*
