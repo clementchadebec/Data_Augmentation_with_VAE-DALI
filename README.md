@@ -1,6 +1,8 @@
 # Data Augmentation with Variational Autoencoders and Manifold Sampling
 
-This repository is the official implementation of Data Augmentation with Variational Autoencoders and Manifold Sampling
+This repository is the official implementation of Data Augmentation with Variational Autoencoders and Manifold Sampling. This repository can be used to reproduce the results presented in the paper.
+
+**Update**: This method is added to the software Pyraug available [here](https://github.com/clementchadebec/pyraug). This software allows to use the method very easily on your own data. Check this out!
 
 ## Requirements
 
