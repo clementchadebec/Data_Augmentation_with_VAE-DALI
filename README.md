@@ -86,3 +86,15 @@ Generated data are stored in the folder `generated_data/YYYY-MM-DD_hh_mm_ss__mod
 - `trained_models`: Contain the pre-trained models used in the paper.
 - `training_data`: Contains the data used in the paper
 - `notebooks`: Contains the demo notebook.
+
+## Citing
+```tex
+@incollection{chadebec2021data,
+  title={Data Augmentation with Variational Autoencoders and Manifold Sampling},
+  author={Chadebec, Cl{\'e}ment and Allassonni{\`e}re, St{\'e}phanie},
+  booktitle={Deep Generative Models, and Data Augmentation, Labelling, and Imperfections},
+  pages={184--192},
+  year={2021},
+  publisher={Springer}
+}
+```
